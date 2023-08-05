@@ -1,5 +1,6 @@
 package com.mindhub.homebanking.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ManyToAny;
 
@@ -57,6 +58,7 @@ public class Account {
         this.balance = balance;
     }
 
+    @JsonIgnore
     public Client getOwner() {
         return owner;
     }
