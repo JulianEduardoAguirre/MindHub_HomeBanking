@@ -29,7 +29,7 @@ public class HomebankingApplication {
 
 			Client client1 = new Client("Melba", "Morel", "melba@mindhub.com");
 			Client client2 = new Client("Martín", "Palermo", "martin@pescador.com");
-			Client client3 = new Client("Elba", "Gallo", "elba@mindhub.com");
+			Client client3 = new Client("Alberto", "Einstenio", "albert_einstein_1879@lifebeforeinternet.com");
 
 
 			clientRepository.save(client1);
