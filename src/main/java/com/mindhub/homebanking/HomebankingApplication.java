@@ -32,14 +32,14 @@ public class HomebankingApplication {
 			Client client3 = new Client("Elba", "Gallo", "elba@mindhub.com");
 
 
+			clientRepository.save(client1);
+			clientRepository.save(client2);
+			clientRepository.save(client3);
+
 			client1.addAccount(account1);
 			client1.addAccount(account2);
 			client2.addAccount(account3);
 			client2.addAccount(account4);
-
-			clientRepository.save(client1);
-			clientRepository.save(client2);
-			clientRepository.save(client3);
 
 			accountRepository.save(account1);
 			accountRepository.save(account2);
