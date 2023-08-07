@@ -5,15 +5,12 @@ import com.mindhub.homebanking.models.Client;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class ClientDTO {
     private long id;
     private String firstName;
     private String lastName;
     private String email;
-
-
     private Set<Account> accounts;
 
     public ClientDTO(Client client) {

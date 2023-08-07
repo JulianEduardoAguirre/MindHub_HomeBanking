@@ -6,10 +6,8 @@ import java.time.LocalDate;
 
 public class AccountDTO {
     private long id;
-
     private String number;
     private LocalDate creationDate;
-
     private double balance;
 
     public AccountDTO(Account account) {
