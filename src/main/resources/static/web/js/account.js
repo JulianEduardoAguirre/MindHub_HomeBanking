@@ -1,17 +1,20 @@
 Vue.createApp({
     data() {
         return {
-            clientInfo: {},
+            accountInfo: {},
             errorToats: null,
             errorMsg: null,
         }
     },
     methods: {
         getData() {
-            axios.get("/api/clients/2")
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            axios.get(`/api/accounts/${id}`)
                 .then((response) => {
                     //get client ifo
-                    this.clientInfo = response.data;
+                    this.accountInfo = response.data;
+                    this.accountInfo.transactions.sort((a, b) => b.id - a.id)
                 })
                 .catch((error) => {
                     // handle error
@@ -20,8 +23,8 @@ Vue.createApp({
                 })
         },
         formatDate(date) {
-            return new Date(date).toLocaleDateString('en-us');
-        },
+            return new Date(date).toLocaleDateString('en-gb');
+        }
     },
     mounted() {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
