@@ -1,9 +1,6 @@
 package com.mindhub.homebanking;
 
-import com.mindhub.homebanking.models.Account;
-import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.models.Transaction;
-import com.mindhub.homebanking.models.TransactionType;
+import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.repositories.TransactionRepository;
@@ -14,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootApplication
 public class HomebankingApplication {
@@ -42,6 +40,9 @@ public class HomebankingApplication {
 			Client client2 = new Client("Martín", "Palermo", "martin@pescador.com");
 			Client client3 = new Client("Alberto", "Einstenio", "albert_einstein_1879@lifebeforeinternet.com");
 
+			Loan loan1 = new Loan("Hipotecario", 500000, List.of(12, 24, 36, 48, 60));
+			Loan loan2 = new Loan("Personal", 100000, List.of(6, 12, 24));
+			Loan loan3 = new Loan("Automotriz", 300000, List.of(6, 12, 24, 36));
 
 			clientRepository.save(client1);
 			clientRepository.save(client2);
