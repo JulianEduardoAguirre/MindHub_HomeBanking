@@ -38,18 +38,26 @@ public class HomebankingApplication {
 			Account account3 = new Account("VIN003", LocalDate.now().plusDays(10), 10000);
 			Account account4 = new Account("VIN004", LocalDate.now().plusDays(5), 15000);
 
+			//Creating clients (Melba, MP9 & our Albert Einstein)
 			Client client1 = new Client("Melba", "Morel", "melba@mindhub.com");
 			Client client2 = new Client("Martín", "Palermo", "martin@pescador.com");
 			Client client3 = new Client("Alberto", "Einstenio", "albert_einstein_1879@lifebeforeinternet.com");
 
+			//Creating three types for Loan
 			Loan loan1 = new Loan("Hipotecario", 500000, List.of(12, 24, 36, 48, 60));
 			Loan loan2 = new Loan("Personal", 100000, List.of(6, 12, 24));
 			Loan loan3 = new Loan("Automotriz", 300000, List.of(6, 12, 24, 36));
 
+			//Creating 2 loans for Melba and 2 for MP9
 			ClientLoan clientLoan1 = new ClientLoan(400000, 60, client1, loan1);
 			ClientLoan clientLoan2 = new ClientLoan(50000, 12, client1, loan2);
 			ClientLoan clientLoan3 = new ClientLoan(100000, 24, client2, loan2);
 			ClientLoan clientLoan4 = new ClientLoan(200000, 36, client2, loan3);
+
+			//Creating a couple of Cards
+			
+
+
 
 			loanRepository.save(loan1);
 			loanRepository.save(loan2);
