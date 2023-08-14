@@ -76,6 +76,8 @@ public class Client {
         return this.accounts;
     }
 
+    public Set<Card> getCards() { return this.cards;}
+
     public void addAccount(Account account){
         account.setOwner(this);
         accounts.add(account);

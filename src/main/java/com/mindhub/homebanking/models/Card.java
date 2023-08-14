@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Card {
@@ -13,9 +14,9 @@ public class Card {
     private long id;
 
     private String number;
-    private String cvv;
-    private LocalDate fromDate;
-    private LocalDate thruDate;
+    private int cvv;
+    private LocalDateTime fromDate;
+    private LocalDateTime thruDate;
 
     private CardType type;
 
@@ -25,9 +26,11 @@ public class Card {
     @JoinColumn(name = "cardholder_id")
     private Client cardholder;
 
+//    private String cardHolder;
+
     public Card() {};
 
-    public Card(String number, String cvv, LocalDate fromDate, LocalDate thruDate, CardType type, CardColor color) {
+    public Card(String number, int cvv, LocalDateTime fromDate, LocalDateTime thruDate, CardType type, CardColor color) {
         this.number = number;
         this.cvv = cvv;
         this.fromDate = fromDate;
@@ -48,27 +51,27 @@ public class Card {
         this.number = number;
     }
 
-    public String getCvv() {
+    public int getCvv() {
         return cvv;
     }
 
-    public void setCvv(String cvv) {
+    public void setCvv(int cvv) {
         this.cvv = cvv;
     }
 
-    public LocalDate getFromDate() {
+    public LocalDateTime getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(LocalDate fromDate) {
+    public void setFromDate(LocalDateTime fromDate) {
         this.fromDate = fromDate;
     }
 
-    public LocalDate getThruDate() {
+    public LocalDateTime getThruDate() {
         return thruDate;
     }
 
-    public void setThruDate(LocalDate thruDate) {
+    public void setThruDate(LocalDateTime thruDate) {
         this.thruDate = thruDate;
     }
 
@@ -95,4 +98,12 @@ public class Card {
     public void setCardholder(Client cardholder) {
         this.cardholder = cardholder;
     }
+
+//    public void serCardHolder(Client cardholder) {
+//        this.cardHolder = cardholder.getFirstName() + " " + cardholder.getLastName();
+//    }
+
+//    public void getCardHolder() {
+//        return this.cardHolder;
+//    }
 }
