@@ -58,6 +58,10 @@ public class HomebankingApplication {
 			//Creating a couple of Cards for Melba
 			Card card1 = new Card("3325-6745-7876-4445", 990, LocalDateTime.now(), LocalDateTime.now().plusYears(5), CardType.DEBIT, CardColor.GOLD);
 			Card card2 = new Card("2234-6745-552-7888", 750, LocalDateTime.now(), LocalDateTime.now().plusYears(5), CardType.CREDIT, CardColor.TITANIUM);
+			//Creating two cards for Martín
+			Card card3 = new Card("2234-6745-558-0699", 189, LocalDateTime.now(), LocalDateTime.now().plusYears(4), CardType.CREDIT, CardColor.TITANIUM);
+			Card card4 = new Card("3325-6745-0159-6548", 639, LocalDateTime.now(), LocalDateTime.now().plusYears(4), CardType.DEBIT, CardColor.SILVER);
+
 
 			loanRepository.save(loan1);
 			loanRepository.save(loan2);
@@ -97,9 +101,13 @@ public class HomebankingApplication {
 
 			client1.addCard(card1);
 			client1.addCard(card2);
+			client2.addCard(card3);
+			client2.addCard(card4);
 
 			cardRepository.save(card1);
 			cardRepository.save(card2);
+			cardRepository.save(card3);
+			cardRepository.save(card4);
 
 
 
