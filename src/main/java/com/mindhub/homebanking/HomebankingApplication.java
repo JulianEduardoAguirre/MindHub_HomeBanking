@@ -40,9 +40,9 @@ public class HomebankingApplication {
 			Account account4 = new Account("VIN004", LocalDate.now().plusDays(5), 15000);
 
 			//Creating clients (Melba, MP9 & our Albert Einstein)
-			Client client1 = new Client("Melba", "Morel", "melba@mindhub.com");
-			Client client2 = new Client("Martín", "Palermo", "martin@pescador.com");
-			Client client3 = new Client("Alberto", "Einstenio", "albert_einstein_1879@lifebeforeinternet.com");
+			Client client1 = new Client("Melba", "Morel", "melba@mindhub.com", "melba123");
+			Client client2 = new Client("Martín", "Palermo", "martin@pescador.com", "martin123");
+			Client client3 = new Client("Alberto", "Einstenio", "albert_einstein_1879@lifebeforeinternet.com", "alberto123");
 
 			//Creating three types for Loan
 			Loan loan1 = new Loan("Hipotecario", 500000, List.of(12, 24, 36, 48, 60));
