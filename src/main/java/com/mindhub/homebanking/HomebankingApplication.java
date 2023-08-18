@@ -2,10 +2,12 @@ package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,6 +20,8 @@ public class HomebankingApplication {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@Bean
 	public CommandLineRunner initData(ClientRepository clientRepository,
 									  AccountRepository accountRepository,
@@ -40,9 +44,9 @@ public class HomebankingApplication {
 			Account account4 = new Account("VIN004", LocalDate.now().plusDays(5), 15000);
 
 			//Creating clients (Melba, MP9 & our Albert Einstein)
-			Client client1 = new Client("Melba", "Morel", "melba@mindhub.com", "melba123");
-			Client client2 = new Client("Martín", "Palermo", "martin@pescador.com", "martin123");
-			Client client3 = new Client("Alberto", "Einstenio", "albert_einstein_1879@lifebeforeinternet.com", "alberto123");
+			Client client1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("melba123"));
+			Client client2 = new Client("Martín", "Palermo", "martin@pescador.com", passwordEncoder.encode("martin123"));
+			Client client3 = new Client("Alberto", "Einstenio", "albert_einstein_1879@lifebeforeinternet.com", passwordEncoder.encode("alberto123"));
 
 			//Creating three types for Loan
 			Loan loan1 = new Loan("Hipotecario", 500000, List.of(12, 24, 36, 48, 60));
