@@ -48,6 +48,10 @@ public class HomebankingApplication {
 			Client client2 = new Client("Martín", "Palermo", "martin@pescador.com", passwordEncoder.encode("martin123"));
 			Client client3 = new Client("Alberto", "Einstenio", "albert_einstein_1879@lifebeforeinternet.com", passwordEncoder.encode("alberto123"));
 
+			//Creating admin
+			Client client4 = new Client("admin", "admin", "admin@mindhub.com", passwordEncoder.encode("admin"));
+
+
 			//Creating three types for Loan
 			Loan loan1 = new Loan("Hipotecario", 500000, List.of(12, 24, 36, 48, 60));
 			Loan loan2 = new Loan("Personal", 100000, List.of(6, 12, 24));
@@ -75,6 +79,7 @@ public class HomebankingApplication {
 			clientRepository.save(client1);
 			clientRepository.save(client2);
 			clientRepository.save(client3);
+			clientRepository.save(client4);
 
 			client1.addAccount(account1);
 			client1.addAccount(account2);

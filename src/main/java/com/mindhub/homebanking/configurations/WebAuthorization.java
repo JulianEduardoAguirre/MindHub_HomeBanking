@@ -4,22 +4,90 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.WebAttributes;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @EnableWebSecurity
 @Configuration
 public class WebAuthorization extends WebSecurityConfigurerAdapter {
 
+    private static final String[] AUTH_WHITELIST = {
+            "/js", "js/**", "/css", "/css/**", "/img"
+    } ;
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/**").hasAuthority("USER");
+        http.csrf().disable().authorizeRequests()
+                .antMatchers(AUTH_WHITELIST).permitAll()
+                .antMatchers("/app/login").permitAll()
+                .antMatchers("/rest/**").permitAll()
+                .antMatchers("/api/**").hasAuthority("CLIENT")
+                .antMatchers("/web/accounts").authenticated()
+                .antMatchers("/web/accounts/**").authenticated();
+//                        .antMatchers("/api/**").hasAuthority("ADMIN")
+//                .antMatchers("/rest/**").hasAuthority("ADMIN")
+//                .anyRequest().denyAll();
+//        http.authorizeRequests()
+//                        .antMatchers("/api/**").hasAnyAuthority();
+//                .antMatchers("/app/clients").hasAuthority("CLIENT")
+//                        .antMatchers("/app/login").hasAnyAuthority();
+//                        .antMatchers("/api/**").hasAnyAuthority();
+//                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+//                .antMatchers("/h2-console").hasAuthority("ADMIN")
+//                .antMatchers("/rest/**").hasAuthority("CLIENT")
+//                .antMatchers("/web/clients").hasAuthority("CLIENT")
+//                .antMatchers("/web/clients/**").hasAuthority("CLIENT")
+//
+//                .antMatchers("/index").hasAuthority("CLIENT")
+//                .antMatchers("/**").hasAnyAuthority();
+//        .antMatchers("/**").hasAnyAuthority();
 
         http.formLogin()
-                .usernameParameter("name")
-                .passwordParameter("pwd")
+                .usernameParameter("email")
+                .passwordParameter("password")
                 .loginPage("/app/login");
-
+//
         http.logout().logoutUrl("/app/logout");
+
+
+//        //Turn off checking for CSRF tokens
+//        http.csrf().disable();
+//
+//        //disabling frameOptions so h2-console can be accessed
+        http.headers().frameOptions().disable();
+//
+//        //auth failure response - Not authenticated
+        http.exceptionHandling().authenticationEntryPoint( (req, res, exc) ->
+//                res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+                res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+//
+//        //clear flags for auth when login is ok
+        http.formLogin().successHandler( (req, res, auth) ->
+                clearAuthenticationAttributes(req));
+//
+//        //If login fails, just send an auth failure response
+        http.formLogin().failureHandler( (req, res, exc) ->
+                res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+//
+//        //if logout is successful, just send a success response
+        http.logout().logoutSuccessHandler( new HttpStatusReturningLogoutSuccessHandler());
+
+
     }
+
+    private void clearAuthenticationAttributes(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        }
+
+    }
+
+
 }
