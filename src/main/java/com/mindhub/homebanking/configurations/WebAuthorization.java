@@ -29,6 +29,7 @@ public class WebAuthorization {
                 .antMatchers("/api/**").hasAuthority("CLIENT")
                 .antMatchers("/web/index.html").permitAll()
                 .antMatchers("/web/accounts/**").authenticated()
+                .antMatchers("/web/cards.html").authenticated()
                 .antMatchers("/app/logout").authenticated();
 
 //                        .antMatchers("/api/**").hasAuthority("ADMIN")
