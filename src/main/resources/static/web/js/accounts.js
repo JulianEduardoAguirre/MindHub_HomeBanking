@@ -8,7 +8,7 @@ Vue.createApp({
     },
     methods: {
         getData: function () {
-            axios.get("/api/clients/1")
+            axios.get("/api/clients/current")
                 .then((response) => {
                     //get client ifo
                     this.clientInfo = response.data;
@@ -21,6 +21,13 @@ Vue.createApp({
         },
         formatDate: function (date) {
             return new Date(date).toLocaleDateString('en-gb');
+        },
+        signOut: function() {
+        axios.get("/app/logout")
+                .then((response) => {
+                this.errorMsg = "Looged out";
+                this.errorToats.show();})
+                .catch((error) => console.log(error))
         }
     },
     mounted: function () {
