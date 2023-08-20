@@ -25,10 +25,12 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/app/login").permitAll()
-                .antMatchers("/rest/**").permitAll()
+                .antMatchers("/rest/**").hasAuthority("CLIENT")
                 .antMatchers("/api/**").hasAuthority("CLIENT")
                 .antMatchers("/web/accounts").authenticated()
-                .antMatchers("/web/accounts/**").authenticated();
+                .antMatchers("/web/accounts/**").authenticated()
+                .antMatchers("app/logout").authenticated();
+
 //                        .antMatchers("/api/**").hasAuthority("ADMIN")
 //                .antMatchers("/rest/**").hasAuthority("ADMIN")
 //                .anyRequest().denyAll();
