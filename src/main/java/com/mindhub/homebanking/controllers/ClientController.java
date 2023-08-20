@@ -41,8 +41,8 @@ public class ClientController {
             return new ResponseEntity<>("Email already in use", HttpStatus.FORBIDDEN);
         }
 
-            clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
-            return new ResponseEntity<>(HttpStatus.CREATED);
+        clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
+        return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
 
