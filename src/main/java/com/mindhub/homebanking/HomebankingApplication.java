@@ -58,10 +58,25 @@ public class HomebankingApplication {
 			Loan loan3 = new Loan("Automotriz", 300000, List.of(6, 12, 24, 36));
 
 			//Creating 2 loans for Melba and 2 for MP9
-			ClientLoan clientLoan1 = new ClientLoan(400000, 60, client1, loan1);
-			ClientLoan clientLoan2 = new ClientLoan(50000, 12, client1, loan2);
-			ClientLoan clientLoan3 = new ClientLoan(100000, 24, client2, loan2);
-			ClientLoan clientLoan4 = new ClientLoan(200000, 36, client2, loan3);
+//			ClientLoan clientLoan1 = new ClientLoan(400000, 60, client1, loan1);
+//			ClientLoan clientLoan2 = new ClientLoan(50000, 12, client1, loan2);
+//			ClientLoan clientLoan3 = new ClientLoan(100000, 24, client2, loan2);
+//			ClientLoan clientLoan4 = new ClientLoan(200000, 36, client2, loan3);
+
+ 			ClientLoan clientLoan1 = new ClientLoan(400000, 60);
+			ClientLoan clientLoan2 = new ClientLoan(50000, 12);
+			ClientLoan clientLoan3 = new ClientLoan(100000, 24);
+			ClientLoan clientLoan4 = new ClientLoan(200000, 36);
+
+			client1.addClientLoan(clientLoan1);
+			client1.addClientLoan(clientLoan2);
+			client2.addClientLoan(clientLoan3);
+			client2.addClientLoan(clientLoan4);
+
+			loan1.addClientLoan(clientLoan1);
+			loan2.addClientLoan(clientLoan2);
+			loan2.addClientLoan(clientLoan3);
+			loan3.addClientLoan(clientLoan4);
 
 			//Creating a couple of Cards for Melba
 			Card card1 = new Card("3325-6745-7876-4445", 990, LocalDateTime.now(), LocalDateTime.now().plusYears(5), CardType.DEBIT, CardColor.GOLD);

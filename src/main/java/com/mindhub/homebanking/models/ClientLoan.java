@@ -21,9 +21,13 @@ public class ClientLoan {
 
     public ClientLoan () {};
 
-    public ClientLoan (int amount, int payments, Client client, Loan loan) {
+    public ClientLoan(int amount, int payments) {
         this.amount = amount;
         this.payments = payments;
+    }
+
+    public ClientLoan (int amount, int payments, Client client, Loan loan) {
+        this(amount, payments);
         this.client = client;
         this.loan = loan;
     }
