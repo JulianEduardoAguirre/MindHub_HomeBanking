@@ -58,6 +58,10 @@ public class Loan {
         this.payments = payments;
     }
 
+    public Set<ClientLoan> getClientLoans() {
+        return this.clientLoans;
+    }
+
     public void addClientLoan(ClientLoan clientLoan) {
         clientLoan.setLoan(this);
         clientLoans.add(clientLoan);
