@@ -20,7 +20,7 @@ public class Loan {
     private List<Integer> payments = new ArrayList<>();
 
     @OneToMany(mappedBy = "loan", fetch = FetchType.EAGER)
-    Set<ClientLoan> clientLoans;
+    private Set<ClientLoan> clientLoans;
 
     public Loan () {};
 

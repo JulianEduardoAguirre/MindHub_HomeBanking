@@ -23,12 +23,12 @@ Vue.createApp({
             return new Date(date).toLocaleDateString('en-gb');
         },
         signOut: function() {
-        axios.get("/app/logout")
-                .then((response) => {
-                this.errorMsg = "Looged out";
-                this.errorToats.show();})
-                .catch((error) => console.log(error))
-        }
+            axios.get("/api/logout")
+                .then( response => {
+                window.location.href = "/";
+                })  //BORRO LA SESSION AQUI?
+                .catch( error  => console.log(error) )
+        },
     },
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
