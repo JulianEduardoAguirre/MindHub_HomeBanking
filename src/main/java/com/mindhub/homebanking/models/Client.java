@@ -87,21 +87,21 @@ public class Client {
         return this.accounts;
     }
 
-    public Set<Card> getCards() { return this.cards;}
-
     public void addAccount(Account account){
         account.setOwner(this);
         accounts.add(account);
     }
 
-    public void addClientLoan(ClientLoan clientLoan) {
-        clientLoan.setClient(this);
-        clientLoans.add(clientLoan);
-    }
+    public Set<Card> getCards() { return this.cards;}
 
     public void addCard(Card card) {
         card.setCardholder(this);
         this.cards.add(card);
+    }
+
+    public void addClientLoan(ClientLoan clientLoan) {
+        clientLoan.setClient(this);
+        clientLoans.add(clientLoan);
     }
 
     public Set<ClientLoan> getClientLoans() {
