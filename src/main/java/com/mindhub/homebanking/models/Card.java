@@ -26,8 +26,6 @@ public class Card {
     @JoinColumn(name = "cardholder_id")
     private Client cardholder;
 
-//    private String cardHolder;
-
     public Card() {};
 
     public Card(String number, int cvv, LocalDateTime fromDate, LocalDateTime thruDate, CardType type, CardColor color) {

@@ -8,7 +8,7 @@ Vue.createApp({
     },
     methods: {
         getData: function () {
-            axios.get("/api/clients/1")
+            axios.get("/api/clients/current")
                 .then((response) => {
                     //get client ifo
                     this.clientInfo = response.data;
@@ -21,7 +21,14 @@ Vue.createApp({
         },
         formatDate: function (date) {
             return new Date(date).toLocaleDateString('en-gb');
-        }
+        },
+        signOut: function() {
+            axios.get("/api/logout")
+                .then( response => {
+                window.location.href = "/";
+                })  //BORRO LA SESSION AQUI?
+                .catch( error  => console.log(error) )
+        },
     },
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));

@@ -2,10 +2,12 @@ package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,6 +20,8 @@ public class HomebankingApplication {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@Bean
 	public CommandLineRunner initData(ClientRepository clientRepository,
 									  AccountRepository accountRepository,
@@ -40,9 +44,13 @@ public class HomebankingApplication {
 			Account account4 = new Account("VIN004", LocalDate.now().plusDays(5), 15000);
 
 			//Creating clients (Melba, MP9 & our Albert Einstein)
-			Client client1 = new Client("Melba", "Morel", "melba@mindhub.com");
-			Client client2 = new Client("Martín", "Palermo", "martin@pescador.com");
-			Client client3 = new Client("Alberto", "Einstenio", "albert_einstein_1879@lifebeforeinternet.com");
+			Client client1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("melba123"));
+			Client client2 = new Client("Martín", "Palermo", "martin@pescador.com", passwordEncoder.encode("martin123"));
+			Client client3 = new Client("Alberto", "Einstenio", "albert_einstein_1879@lifebeforeinternet.com", passwordEncoder.encode("alberto123"));
+
+			//Creating admin
+			Client client4 = new Client("admin", "admin", "admin@mindhub.com", passwordEncoder.encode("admin"));
+
 
 			//Creating three types for Loan
 			Loan loan1 = new Loan("Hipotecario", 500000, List.of(12, 24, 36, 48, 60));
@@ -50,10 +58,25 @@ public class HomebankingApplication {
 			Loan loan3 = new Loan("Automotriz", 300000, List.of(6, 12, 24, 36));
 
 			//Creating 2 loans for Melba and 2 for MP9
-			ClientLoan clientLoan1 = new ClientLoan(400000, 60, client1, loan1);
-			ClientLoan clientLoan2 = new ClientLoan(50000, 12, client1, loan2);
-			ClientLoan clientLoan3 = new ClientLoan(100000, 24, client2, loan2);
-			ClientLoan clientLoan4 = new ClientLoan(200000, 36, client2, loan3);
+//			ClientLoan clientLoan1 = new ClientLoan(400000, 60, client1, loan1);
+//			ClientLoan clientLoan2 = new ClientLoan(50000, 12, client1, loan2);
+//			ClientLoan clientLoan3 = new ClientLoan(100000, 24, client2, loan2);
+//			ClientLoan clientLoan4 = new ClientLoan(200000, 36, client2, loan3);
+
+ 			ClientLoan clientLoan1 = new ClientLoan(400000, 60);
+			ClientLoan clientLoan2 = new ClientLoan(50000, 12);
+			ClientLoan clientLoan3 = new ClientLoan(100000, 24);
+			ClientLoan clientLoan4 = new ClientLoan(200000, 36);
+
+			client1.addClientLoan(clientLoan1);
+			client1.addClientLoan(clientLoan2);
+			client2.addClientLoan(clientLoan3);
+			client2.addClientLoan(clientLoan4);
+
+			loan1.addClientLoan(clientLoan1);
+			loan2.addClientLoan(clientLoan2);
+			loan2.addClientLoan(clientLoan3);
+			loan3.addClientLoan(clientLoan4);
 
 			//Creating a couple of Cards for Melba
 			Card card1 = new Card("3325-6745-7876-4445", 990, LocalDateTime.now(), LocalDateTime.now().plusYears(5), CardType.DEBIT, CardColor.GOLD);
@@ -71,6 +94,7 @@ public class HomebankingApplication {
 			clientRepository.save(client1);
 			clientRepository.save(client2);
 			clientRepository.save(client3);
+			clientRepository.save(client4);
 
 			client1.addAccount(account1);
 			client1.addAccount(account2);
