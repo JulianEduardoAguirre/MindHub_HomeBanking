@@ -1,4 +1,5 @@
 Vue.createApp({
+
     data() {
         return {
             clientInfo: {},
@@ -22,13 +23,22 @@ Vue.createApp({
         formatDate: function (date) {
             return new Date(date).toLocaleDateString('en-gb');
         },
-        signOut: function() {
-            axios.get("/api/logout")
-                .then( response => {
-                window.location.href = "/";
-                })  //BORRO LA SESSION AQUI?
-                .catch( error  => console.log(error) )
+        signOut: function () {
+            axios.post('/api/logout')
+                .then(response => window.location.href = "/web/index.html")
+                .catch(() => {
+                    this.errorMsg = "Sign out failed"
+                    this.errorToats.show();
+                })
         },
+        create: function () {
+            axios.post('/api/clients/current/accounts')
+                .then(response => window.location.reload())
+                .catch((error) => {
+                    this.errorMsg = error.response.data;
+                    this.errorToats.show();
+                })
+        }
     },
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
