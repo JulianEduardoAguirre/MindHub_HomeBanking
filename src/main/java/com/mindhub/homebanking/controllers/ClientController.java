@@ -1,7 +1,9 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.dtos.ClientDTO;
+import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,15 +12,22 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
 public class ClientController {
+
+    private Random random = new Random();
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -42,7 +51,13 @@ public class ClientController {
             return new ResponseEntity<>("Email already in use", HttpStatus.FORBIDDEN);
         }
 
-        clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
+        Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
+        Account account = new Account("VIN"+random.nextInt(100000000), LocalDate.now(), 0.0);
+        client.addAccount(account);
+
+        clientRepository.save(client);
+        accountRepository.save(account);
+
         return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
