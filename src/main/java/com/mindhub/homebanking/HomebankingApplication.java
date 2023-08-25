@@ -51,7 +51,7 @@ public class HomebankingApplication {
 
 			//Creating admin
 			Client client4 = new Client("admin", "admin", "admin@mindhub.com", passwordEncoder.encode("admin"));
-
+			//Only for test purposes
 
 			//Creating three types for Loan
 			Loan loan1 = new Loan("Hipotecario", 500000, List.of(12, 24, 36, 48, 60));
