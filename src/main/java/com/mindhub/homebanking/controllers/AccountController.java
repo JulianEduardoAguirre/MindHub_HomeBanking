@@ -1,7 +1,6 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.dtos.AccountDTO;
-import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
@@ -55,5 +54,12 @@ public class AccountController {
         }
 
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
+    @RequestMapping(path = "/clients/current/accounts")
+    public List<AccountDTO> getAccounts(Authentication authentication) {
+        Client client = clientRepository.findByEmail(authentication.getName());
+
+        return client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toList());
     }
 }

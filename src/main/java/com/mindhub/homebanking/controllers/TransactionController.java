@@ -35,21 +35,21 @@ public class TransactionController {
     @RequestMapping(path = "/transactions", method = RequestMethod.POST)
     public ResponseEntity<Object> makeTransaction (@RequestParam double amount,
                                                    @RequestParam String description,
-                                                   @RequestParam String origin,
-                                                   @RequestParam String destiny,
+                                                   @RequestParam String fromAccountNumber,
+                                                   @RequestParam String toAccountNumber,
                                                    Authentication authentication) {
 
-        if (amount <= 0 || description.isEmpty() || origin.isEmpty() || destiny.isEmpty()) {
+        if (amount <= 0 || description.isEmpty() || fromAccountNumber.isEmpty() || toAccountNumber.isEmpty()) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
 
-        if (origin.equalsIgnoreCase(destiny)) {
+        if (fromAccountNumber.equalsIgnoreCase(toAccountNumber)) {
             return new ResponseEntity<>("Origin and destiny are equals", HttpStatus.FORBIDDEN);
         }
 
         Client clientOrigin = clientRepository.findByEmail(authentication.getName());
 
-        Optional<Account> originAccountOptional = Optional.ofNullable(accountRepository.findByNumber(origin));
+        Optional<Account> originAccountOptional = Optional.ofNullable(accountRepository.findByNumber(fromAccountNumber));
         Account originAccount;
         if (originAccountOptional.isPresent()) {
             originAccount = originAccountOptional.get();
@@ -57,7 +57,7 @@ public class TransactionController {
             return new ResponseEntity<>("Invalid origin account", HttpStatus.FORBIDDEN);
         }
 
-        Optional<Account> destinyAccountOptional = Optional.ofNullable(accountRepository.findByNumber(destiny));
+        Optional<Account> destinyAccountOptional = Optional.ofNullable(accountRepository.findByNumber(toAccountNumber));
         Account destinyAccount;
         if (destinyAccountOptional.isPresent()) {
             destinyAccount = destinyAccountOptional.get();

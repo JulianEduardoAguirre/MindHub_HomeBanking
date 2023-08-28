@@ -88,7 +88,7 @@ public class Account {
     }
 
     public void substractAmount(double amount){
-        if(amount < 0 || amount > this.balance){
+        if(amount > 0 && amount <= this.balance){
             this.balance -= amount;
         }
     }
