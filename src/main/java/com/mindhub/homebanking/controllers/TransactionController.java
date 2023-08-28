@@ -80,6 +80,8 @@ public class TransactionController {
 
         transactionRepository.save(debit);
         transactionRepository.save(credit);
+        accountRepository.save(originAccount);
+        accountRepository.save(destinyAccount);
 
         return new ResponseEntity<>("Transaction resolved", HttpStatus.CREATED);
 
