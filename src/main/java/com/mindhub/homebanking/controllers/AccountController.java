@@ -45,7 +45,15 @@ public class AccountController {
         Client client =  clientRepository.findByEmail(authentication.getName());
 
         if (client.getAccounts().size() < 3){
-            String number = "VIN" + random.nextInt(100000000);
+            String number;
+            Optional<Account> accountRecovered;
+
+            do{
+                number = "VIN" + random.nextInt(100000000);
+                accountRecovered = Optional.ofNullable(accountRepository.findByNumber(number));
+            }while(accountRecovered.isPresent());
+
+
             double balance = 0.0;
             Account account = new Account(number, LocalDate.now(), balance);
             client.addAccount(account);
