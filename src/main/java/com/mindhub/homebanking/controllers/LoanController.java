@@ -14,14 +14,13 @@ import java.util.List;
 public class LoanController {
 
     @Autowired
-    private ClientLoanRepository clientLoanRepository;
-
-    @Autowired
     private LoanRepository loanRepository;
+    @Autowired
+    private ClientLoanRepository clientLoanRepository;
 
 
     @RequestMapping("/loans")
-    public List<Loan> getLoans(){
+    public List<Loan> getLoans() {
         return loanRepository.findAll();
     }
 }
