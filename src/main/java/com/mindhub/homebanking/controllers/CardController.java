@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Random;
 
 @RestController
@@ -31,15 +32,27 @@ public class CardController {
                                              @RequestParam CardType cardType,
                                              Authentication authentication) {
 
+        if(cardColor == null || cardType == null){
+            return new ResponseEntity<>("Card color and type are obligatory",HttpStatus.UNAUTHORIZED);
+        }
+
+
         Client client =  clientRepository.findByEmail(authentication.getName());
 
         long countCardsByType = client.getCards().stream().filter( card -> card.getType().equals(cardType)).count();
 
         if (countCardsByType < 3){
-            String number = random.nextInt(10000) + "-" +
+            String number;
+            Optional<Card> cardRetrieved;
+
+            do{
+                number =   random.nextInt(10000) + "-" +
                             random.nextInt(10000) + "-" +
                             random.nextInt(10000) + "-" +
                             random.nextInt(10000);
+
+                cardRetrieved = Optional.ofNullable(cardRepository.findByNumber(number));
+            }while(cardRetrieved.isPresent());
 
             Card card = new Card( number, random.nextInt(1000), LocalDateTime.now(), LocalDateTime.now().plusYears(5), cardType, cardColor );
             client.addCard(card);
