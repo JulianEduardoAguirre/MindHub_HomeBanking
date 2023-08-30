@@ -81,6 +81,18 @@ public class Account {
         transactions.add(transaction);
     }
 
+    public void addAmount(double amount){
+        if(amount > 0){
+            this.balance += amount;
+        }
+    }
+
+    public void substractAmount(double amount){
+        if(amount > 0 && amount <= this.balance){
+            this.balance -= amount;
+        }
+    }
+
     @Override
     public String toString() {
         return "Account{" +
