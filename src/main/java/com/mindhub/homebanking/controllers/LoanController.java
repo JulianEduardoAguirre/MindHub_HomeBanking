@@ -37,7 +37,7 @@ public class LoanController {
     }
 
     @Transactional
-    @RequestMapping(value = "/loans", method = RequestMethod.POST)
+    @RequestMapping(path = "/loans", method = RequestMethod.POST)
     public ResponseEntity<Object> createLoan(@RequestBody LoanApplicationoDTO loanApplicationoDTO,
                                              Authentication auth) {
 
@@ -65,8 +65,9 @@ public class LoanController {
         //Apart from that...
 
         ClientLoan requestedLoan = new ClientLoan((int)(loanApplicationoDTO.getAmount() * 1.2), loanApplicationoDTO.getPayments());
-        Transaction creditLoanTransaction = new Transaction(TransactionType.CREDIT, loanApplicationoDTO.getAmount(), "" + loanSelected.getName() + "- loan approved", LocalDateTime.now());
+        Transaction creditLoanTransaction = new Transaction(TransactionType.CREDIT, loanApplicationoDTO.getAmount(), "" + loanSelected.getName() + " - loan approved", LocalDateTime.now());
         destinyAccount.addAmount(loanApplicationoDTO.getAmount());
+        destinyAccount.addTransaction(creditLoanTransaction);
 
         Client actualClient = clientRepository.findByEmail(auth.getName());
         actualClient.addClientLoan(requestedLoan);
