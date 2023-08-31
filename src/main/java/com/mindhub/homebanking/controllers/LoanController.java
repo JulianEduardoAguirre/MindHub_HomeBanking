@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -37,24 +34,24 @@ public class LoanController {
     }
 
     @Transactional
-    @RequestMapping(value = "loans", method = RequestMethod.POST)
-    public ResponseEntity<Object> createLoan(@RequestParam int loanTypeId,
-                                             @RequestParam int payments,
-                                             @RequestParam String accountToNumber,
-                                             @RequestParam int amount,
+    @RequestMapping(path = "/loans", method = RequestMethod.POST)
+    public ResponseEntity<Object> createLoan(@RequestBody int loanId,
+                                             @RequestBody int payments,
+                                             @RequestBody String toAccountNumber,
+                                             @RequestBody int amount,
                                              Authentication auth) {
 
-        if(payments == 0 || accountToNumber.isEmpty() || amount == 0 ) {
+        if(payments == 0 || toAccountNumber.isEmpty() || amount == 0 ) {
             return new ResponseEntity<>("Invalid data", HttpStatus.FORBIDDEN);
         }
 
         List<Loan> listOfLoans = loanRepository.findAll();
 
-        if (listOfLoans.stream().noneMatch(loan -> loan.getId() == loanTypeId)) {
+        if (listOfLoans.stream().noneMatch(loan -> loan.getId() == loanId)) {
             return new ResponseEntity<>("Loan type doesn't exist", HttpStatus.FORBIDDEN);
         }
 
-        Loan loanSelected = loanRepository.getById(loanTypeId);
+        Loan loanSelected = loanRepository.getById(loanId);
         if ( amount > loanSelected.getMaxAmount()){
             return new ResponseEntity<>("Cannot exceed loan max amount", HttpStatus.FORBIDDEN);
         }
@@ -64,7 +61,7 @@ public class LoanController {
         }
 
         //Account existing and being property of user, yet to validate
-        Account destinyAccount = accountRepository.findByNumber(accountToNumber);
+        Account destinyAccount = accountRepository.findByNumber(toAccountNumber);
         //Apart from that...
 
         ClientLoan requestedLoan = new ClientLoan((int)(amount * 1.2), payments);
