@@ -8,6 +8,10 @@ import com.mindhub.homebanking.models.TransactionType;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.repositories.TransactionRepository;
+import com.mindhub.homebanking.services.TransactionService;
+import com.mindhub.homebanking.services.implement.AccountServiceImplement;
+import com.mindhub.homebanking.services.implement.ClientServiceImplement;
+import com.mindhub.homebanking.services.implement.TransactionServiceImplement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +27,11 @@ import java.util.Optional;
 public class TransactionController {
 
     @Autowired
-    private TransactionRepository transactionRepository;
-
+    private TransactionServiceImplement transactionService;
     @Autowired
-    private ClientRepository clientRepository;
-
+    private ClientServiceImplement clientService;
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountServiceImplement accountService;
 
     @Transactional
     @RequestMapping(path = "/transactions", method = RequestMethod.POST)
@@ -47,9 +49,9 @@ public class TransactionController {
             return new ResponseEntity<>("Origin and destiny are equals", HttpStatus.FORBIDDEN);
         }
 
-        Client clientOrigin = clientRepository.findByEmail(authentication.getName());
+        Client clientOrigin = clientService.findByEmail(authentication.getName());
 
-        Optional<Account> originAccountOptional = Optional.ofNullable(accountRepository.findByNumber(fromAccountNumber));
+        Optional<Account> originAccountOptional = Optional.ofNullable(accountService.findByNumber(fromAccountNumber));
         Account originAccount;
         if (originAccountOptional.isPresent()) {
             originAccount = originAccountOptional.get();
@@ -57,7 +59,7 @@ public class TransactionController {
             return new ResponseEntity<>("Invalid origin account", HttpStatus.FORBIDDEN);
         }
 
-        Optional<Account> destinyAccountOptional = Optional.ofNullable(accountRepository.findByNumber(toAccountNumber));
+        Optional<Account> destinyAccountOptional = Optional.ofNullable(accountService.findByNumber(toAccountNumber));
         Account destinyAccount;
         if (destinyAccountOptional.isPresent()) {
             destinyAccount = destinyAccountOptional.get();
@@ -78,10 +80,10 @@ public class TransactionController {
         destinyAccount.addTransaction(credit);
         destinyAccount.addAmount(amount);
 
-        transactionRepository.save(debit);
-        transactionRepository.save(credit);
-        accountRepository.save(originAccount);
-        accountRepository.save(destinyAccount);
+        transactionService.saveTransaction(debit);
+        transactionService.saveTransaction(credit);
+        accountService.saveAccount(originAccount);
+        accountService.saveAccount(destinyAccount);
 
         return new ResponseEntity<>("Transaction resolved", HttpStatus.CREATED);
 
