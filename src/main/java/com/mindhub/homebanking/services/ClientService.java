@@ -2,23 +2,25 @@ package com.mindhub.homebanking.services;
 
 import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Client;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ClientService {
 
-void saveClient(Client client);
+    void saveClient(Client client);
 
-List<ClientDTO> getClientsDTO();
+    ClientDTO getClientDTO(Long id);
 
-ClientDTO getClient(Long id);
+    ClientDTO getClientDTOByEmail(String email);
+    List<ClientDTO> getClientsDTO();
 
-Optional<Client> findById(Long id);
 
-Client createClient(String firstName,
-                    String lastName,
-                    String email,
-                    String password);
+
+
+    Client findByEmail(String email);
+
+    Client findById(Long id);
+
 
 }
