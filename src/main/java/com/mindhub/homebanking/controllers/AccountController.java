@@ -5,6 +5,8 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,29 +22,34 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class AccountController {
-    @Autowired
-    private AccountRepository accountRepository;
+//    @Autowired
+//    private AccountRepository accountRepository;
+//
+//    @Autowired
+//    private ClientRepository clientRepository;
 
     @Autowired
-    private ClientRepository clientRepository;
+    private AccountService accountService;
+
+    @Autowired
+    private ClientService clientService;
 
     private Random random = new Random();
 
     @RequestMapping("/accounts")
     public List<AccountDTO> getAccounts() {
-        return accountRepository.findAll().stream().map(AccountDTO::new).collect(Collectors.toList());
+        return accountService.getAccountsDTO();
     }
 
     @RequestMapping("/accounts/{id}")
     public AccountDTO getAccount(@PathVariable Long id) {
-        Optional<Account> account = accountRepository.findById(id);
-        return account.map(AccountDTO::new).orElse(null);
+        return accountService.getAccountDTO(id);
     }
 
     @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
     public ResponseEntity<Object> createAccount(Authentication authentication) {
 
-        Client client =  clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.findByEmail(authentication.getName());
 
         if (client.getAccounts().size() < 3){
             String number;
@@ -50,14 +57,14 @@ public class AccountController {
 
             do{
                 number = "VIN" + random.nextInt(100000000);
-                accountRecovered = Optional.ofNullable(accountRepository.findByNumber(number));
+                accountRecovered = Optional.ofNullable(accountService.findByNumber(number));
             }while(accountRecovered.isPresent());
 
 
             double balance = 0.0;
             Account account = new Account(number, LocalDate.now(), balance);
             client.addAccount(account);
-            accountRepository.save(account);
+            accountService.saveAccount(account);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
 
@@ -66,8 +73,8 @@ public class AccountController {
 
     @RequestMapping(path = "/clients/current/accounts")
     public List<AccountDTO> getAccounts(Authentication authentication) {
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.findByEmail(authentication.getName());
 
-        return client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toList());
+        return client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toList()); //CONSULTAR MAÑANA
     }
 }

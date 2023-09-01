@@ -15,9 +15,6 @@ public interface ClientService {
     ClientDTO getClientDTOByEmail(String email);
     List<ClientDTO> getClientsDTO();
 
-
-
-
     Client findByEmail(String email);
 
     Client findById(Long id);
