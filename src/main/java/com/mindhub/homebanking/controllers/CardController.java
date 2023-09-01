@@ -1,10 +1,6 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.models.*;
-import com.mindhub.homebanking.repositories.CardRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
-import com.mindhub.homebanking.services.CardService;
-import com.mindhub.homebanking.services.ClientService;
 import com.mindhub.homebanking.services.implement.CardServiceImplement;
 import com.mindhub.homebanking.services.implement.ClientServiceImplement;
 import org.springframework.beans.factory.annotation.Autowired;

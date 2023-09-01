@@ -1,14 +1,9 @@
 package com.mindhub.homebanking.controllers;
 
-import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.models.TransactionType;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
-import com.mindhub.homebanking.repositories.TransactionRepository;
-import com.mindhub.homebanking.services.TransactionService;
 import com.mindhub.homebanking.services.implement.AccountServiceImplement;
 import com.mindhub.homebanking.services.implement.ClientServiceImplement;
 import com.mindhub.homebanking.services.implement.TransactionServiceImplement;
