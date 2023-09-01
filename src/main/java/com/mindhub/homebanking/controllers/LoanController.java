@@ -69,7 +69,11 @@ public class LoanController {
         Account destinyAccount = accountService.findByNumber(loanApplicationoDTO.getToAccountNumber());
         //Apart from that...
 
-        ClientLoan requestedLoan = new ClientLoan((int)(loanApplicationoDTO.getAmount() * 1.2), loanApplicationoDTO.getPayments());
+        //double interest = 1 + 0.1 * loanApplicationoDTO.getPayments() / 6;
+        double interest = 1.2;
+
+
+        ClientLoan requestedLoan = new ClientLoan((int)(loanApplicationoDTO.getAmount() * interest), loanApplicationoDTO.getPayments());
         Transaction creditLoanTransaction = new Transaction(TransactionType.CREDIT, loanApplicationoDTO.getAmount(), "" + loanSelected.getName() + " - loan approved", LocalDateTime.now());
         destinyAccount.addAmount(loanApplicationoDTO.getAmount());
         destinyAccount.addTransaction(creditLoanTransaction);
