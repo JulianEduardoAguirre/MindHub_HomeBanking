@@ -5,6 +5,8 @@ import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.CardService;
 import com.mindhub.homebanking.services.ClientService;
+import com.mindhub.homebanking.services.implement.CardServiceImplement;
+import com.mindhub.homebanking.services.implement.ClientServiceImplement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +26,10 @@ public class CardController {
     private Random random = new Random();
 
     @Autowired
-    private CardService cardService;
+    private CardServiceImplement cardService;
 
     @Autowired
-    private ClientService clientService;
+    private ClientServiceImplement clientService;
 
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
     public ResponseEntity<Object> createCard(@RequestParam CardColor cardColor,

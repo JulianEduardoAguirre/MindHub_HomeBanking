@@ -7,6 +7,8 @@ import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
+import com.mindhub.homebanking.services.implement.AccountServiceImplement;
+import com.mindhub.homebanking.services.implement.ClientServiceImplement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,17 +24,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class AccountController {
-//    @Autowired
-//    private AccountRepository accountRepository;
-//
-//    @Autowired
-//    private ClientRepository clientRepository;
+    @Autowired
+    private AccountServiceImplement accountService;
 
     @Autowired
-    private AccountService accountService;
-
-    @Autowired
-    private ClientService clientService;
+    private ClientServiceImplement clientService;
 
     private Random random = new Random();
 

@@ -5,6 +5,7 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.implement.AccountServiceImplement;
 import com.mindhub.homebanking.services.implement.ClientServiceImplement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,14 +25,12 @@ import java.util.stream.Collectors;
 public class ClientController {
 
     private Random random = new Random();
-//    @Autowired
-//    private ClientRepository clientRepository;
 
     @Autowired
     private ClientServiceImplement clientService;
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountServiceImplement accountService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -60,7 +59,7 @@ public class ClientController {
         client.addAccount(account);
 
         clientService.saveClient(client);
-        accountRepository.save(account);
+        accountService.saveAccount(account);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
 
