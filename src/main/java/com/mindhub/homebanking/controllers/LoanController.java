@@ -4,6 +4,7 @@ import com.mindhub.homebanking.dtos.LoanApplicationoDTO;
 import com.mindhub.homebanking.dtos.LoanDTO;
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
+import com.mindhub.homebanking.services.implement.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,20 +21,24 @@ import java.util.stream.Collectors;
 public class LoanController {
 
     @Autowired
-    private LoanRepository loanRepository;
+    private LoanServiceImplement loanService;
+
     @Autowired
-    private ClientLoanRepository clientLoanRepository;
+    private ClientLoanServiceImplement clientLoanService;
+
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountServiceImplement accountService;
+
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionServiceImplement transactionService;
+
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientServiceImplement clientService;
 
 
     @RequestMapping("/loans")
     public List<LoanDTO> getLoans() {
-        return loanRepository.findAll().stream().map(LoanDTO::new).collect(Collectors.toList());
+        return loanService.getLoansDTO();
     }
 
     @Transactional
@@ -45,13 +50,13 @@ public class LoanController {
             return new ResponseEntity<>("Invalid data", HttpStatus.FORBIDDEN);
         }
 
-        List<Loan> listOfLoans = loanRepository.findAll();
+        List<Loan> listOfLoans = loanService.getLoans();
 
         if (listOfLoans.stream().noneMatch(loan -> loan.getId() == loanApplicationoDTO.getLoanId())) {
             return new ResponseEntity<>("Loan type doesn't exist", HttpStatus.FORBIDDEN);
         }
 
-        Loan loanSelected = loanRepository.getById(loanApplicationoDTO.getLoanId());
+        Loan loanSelected = loanService.findById(loanApplicationoDTO.getLoanId());
         if ( loanApplicationoDTO.getAmount() > loanSelected.getMaxAmount()){
             return new ResponseEntity<>("Cannot exceed loan max amount", HttpStatus.FORBIDDEN);
         }
@@ -61,7 +66,7 @@ public class LoanController {
         }
 
         //Account existing and being property of user, yet to validate
-        Account destinyAccount = accountRepository.findByNumber(loanApplicationoDTO.getToAccountNumber());
+        Account destinyAccount = accountService.findByNumber(loanApplicationoDTO.getToAccountNumber());
         //Apart from that...
 
         ClientLoan requestedLoan = new ClientLoan((int)(loanApplicationoDTO.getAmount() * 1.2), loanApplicationoDTO.getPayments());
@@ -69,13 +74,13 @@ public class LoanController {
         destinyAccount.addAmount(loanApplicationoDTO.getAmount());
         destinyAccount.addTransaction(creditLoanTransaction);
 
-        Client actualClient = clientRepository.findByEmail(auth.getName());
+        Client actualClient = clientService.findByEmail(auth.getName());
         actualClient.addClientLoan(requestedLoan);
         loanSelected.addClientLoan(requestedLoan);
-        clientLoanRepository.save(requestedLoan);
-        transactionRepository.save(creditLoanTransaction);
-        loanRepository.save(loanSelected);
-        clientRepository.save(actualClient);
+        clientLoanService.saveClientLoan(requestedLoan);
+        transactionService.saveTransaction(creditLoanTransaction);
+        loanService.saveLoan(loanSelected);
+        clientService.saveClient(actualClient);
 
 
 
