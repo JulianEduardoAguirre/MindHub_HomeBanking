@@ -1,6 +1,8 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.models.*;
+import com.mindhub.homebanking.services.CardService;
+import com.mindhub.homebanking.services.ClientService;
 import com.mindhub.homebanking.services.implement.CardServiceImplement;
 import com.mindhub.homebanking.services.implement.ClientServiceImplement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,13 @@ public class CardController {
     private Random random = new Random();
 
     @Autowired
-    private CardServiceImplement cardService;
+    private CardService cardService;
 
     @Autowired
-    private ClientServiceImplement clientService;
+    private ClientService clientService;
+
+    public CardController() {
+    }
 
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
     public ResponseEntity<Object> createCard(@RequestParam CardColor cardColor,

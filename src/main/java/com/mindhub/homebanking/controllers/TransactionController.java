@@ -4,9 +4,9 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.models.TransactionType;
-import com.mindhub.homebanking.services.implement.AccountServiceImplement;
-import com.mindhub.homebanking.services.implement.ClientServiceImplement;
-import com.mindhub.homebanking.services.implement.TransactionServiceImplement;
+import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.ClientService;
+import com.mindhub.homebanking.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +22,11 @@ import java.util.Optional;
 public class TransactionController {
 
     @Autowired
-    private TransactionServiceImplement transactionService;
+    private TransactionService transactionService;
     @Autowired
-    private ClientServiceImplement clientService;
+    private ClientService clientService;
     @Autowired
-    private AccountServiceImplement accountService;
+    private AccountService accountService;
 
     @Transactional
     @RequestMapping(path = "/transactions", method = RequestMethod.POST)

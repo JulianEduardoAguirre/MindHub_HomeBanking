@@ -3,7 +3,7 @@ package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.dtos.LoanApplicationoDTO;
 import com.mindhub.homebanking.dtos.LoanDTO;
 import com.mindhub.homebanking.models.*;
-import com.mindhub.homebanking.services.implement.*;
+import com.mindhub.homebanking.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,19 +19,22 @@ import java.util.List;
 public class LoanController {
 
     @Autowired
-    private LoanServiceImplement loanService;
+    private LoanService loanService;
 
     @Autowired
-    private ClientLoanServiceImplement clientLoanService;
+    private ClientLoanService clientLoanService;
 
     @Autowired
-    private AccountServiceImplement accountService;
+    private AccountService accountService;
 
     @Autowired
-    private TransactionServiceImplement transactionService;
+    private TransactionService transactionService;
 
     @Autowired
-    private ClientServiceImplement clientService;
+    private ClientService clientService;
+
+    public LoanController() {
+    }
 
 
     @RequestMapping("/loans")
