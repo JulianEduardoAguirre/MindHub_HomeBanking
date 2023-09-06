@@ -1,8 +1,10 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.models.*;
-import com.mindhub.homebanking.repositories.CardRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.CardService;
+import com.mindhub.homebanking.services.ClientService;
+import com.mindhub.homebanking.services.implement.CardServiceImplement;
+import com.mindhub.homebanking.services.implement.ClientServiceImplement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +24,13 @@ public class CardController {
     private Random random = new Random();
 
     @Autowired
-    private ClientRepository clientRepository;
+    private CardService cardService;
 
     @Autowired
-    private CardRepository cardRepository;
+    private ClientService clientService;
+
+    public CardController() {
+    }
 
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
     public ResponseEntity<Object> createCard(@RequestParam CardColor cardColor,
@@ -37,7 +42,7 @@ public class CardController {
         }
 
 
-        Client client =  clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.findByEmail(authentication.getName());
 
         long countCardsByType = client.getCards().stream().filter( card -> card.getType().equals(cardType)).count();
 
@@ -51,12 +56,12 @@ public class CardController {
                             random.nextInt(10000) + "-" +
                             random.nextInt(10000);
 
-                cardRetrieved = Optional.ofNullable(cardRepository.findByNumber(number));
+                cardRetrieved = Optional.ofNullable(cardService.findByNumber(number));
             }while(cardRetrieved.isPresent());
 
             Card card = new Card( number, random.nextInt(1000), LocalDateTime.now(), LocalDateTime.now().plusYears(5), cardType, cardColor );
             client.addCard(card);
-            cardRepository.save(card);
+            cardService.saveCard(card);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
 
