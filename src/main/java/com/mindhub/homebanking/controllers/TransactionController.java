@@ -29,7 +29,7 @@ public class TransactionController {
     private AccountService accountService;
 
     @Transactional
-    @RequestMapping(path = "/transactions", method = RequestMethod.POST)
+    @PostMapping(path = "/transactions")
     public ResponseEntity<Object> makeTransaction (@RequestParam double amount,
                                                    @RequestParam String description,
                                                    @RequestParam String fromAccountNumber,

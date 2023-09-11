@@ -31,12 +31,12 @@ public class ClientController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @RequestMapping("/clients")
+    @GetMapping("/clients")
     public List<ClientDTO> getClients(){
         return clientService.getClientsDTO();
     }
 
-    @RequestMapping(path = "/clients", method = RequestMethod.POST)
+    @PostMapping(path = "/clients")
     public ResponseEntity<Object> register(@RequestParam String firstName,
                                            @RequestParam String lastName,
                                            @RequestParam String email,
@@ -61,13 +61,13 @@ public class ClientController {
 
     }
 
-    @RequestMapping("/clients/current")
+    @GetMapping("/clients/current")
     public ClientDTO getCurrent(Authentication authentication) {
         return clientService.getClientDTOByEmail(authentication.getName());
     }
 
 
-    @RequestMapping("/clients/{id}")
+    @GetMapping("/clients/{id}")
     public ClientDTO getClient(@PathVariable Long id) {
         return clientService.getClientDTO(id);
     }
