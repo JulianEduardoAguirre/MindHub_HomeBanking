@@ -36,24 +36,35 @@ public class TransactionController {
                                                    @RequestParam String toAccountNumber,
                                                    Authentication authentication) {
 
+        //Checking not null parameters
         if (amount <= 0 || description.isEmpty() || fromAccountNumber.isEmpty() || toAccountNumber.isEmpty()) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
 
+        //Checking that accountFrom and accountTo are different
         if (fromAccountNumber.equalsIgnoreCase(toAccountNumber)) {
             return new ResponseEntity<>("Origin and destiny are equals", HttpStatus.FORBIDDEN);
         }
 
+        //Retrieving client who is making the transaction
         Client clientOrigin = clientService.findByEmail(authentication.getName());
 
         Optional<Account> originAccountOptional = Optional.ofNullable(accountService.findByNumber(fromAccountNumber));
         Account originAccount;
+
+        //Checking originAccount is valid
         if (originAccountOptional.isPresent()) {
             originAccount = originAccountOptional.get();
         } else {
             return new ResponseEntity<>("Invalid origin account", HttpStatus.FORBIDDEN);
         }
 
+        //Checking if originAccount belongs to the authenticated user
+        if(clientOrigin.getAccounts().stream().noneMatch(account -> account == originAccount)){
+            return new ResponseEntity<>("Origin account doesn't belong to current user", HttpStatus.FORBIDDEN);
+        };
+
+        //Checking destinyAccount is valid
         Optional<Account> destinyAccountOptional = Optional.ofNullable(accountService.findByNumber(toAccountNumber));
         Account destinyAccount;
         if (destinyAccountOptional.isPresent()) {
@@ -62,12 +73,13 @@ public class TransactionController {
             return new ResponseEntity<>("Invalid destiny account", HttpStatus.FORBIDDEN);
         }
 
+        //Checking that origin account has sufficient founds
         if (originAccount.getBalance() < amount){
-            return new ResponseEntity<>("Insuficient founds", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Insufficient founds", HttpStatus.FORBIDDEN);
         }
 
-        Transaction debit = new Transaction(TransactionType.DEBIT, -amount, description, LocalDateTime.now());
-        Transaction credit = new Transaction(TransactionType.CREDIT, amount, description, LocalDateTime.now());
+        Transaction debit = new Transaction(TransactionType.DEBIT, -amount, description + " " + originAccount.getNumber(), LocalDateTime.now());
+        Transaction credit = new Transaction(TransactionType.CREDIT, amount, description + " " + destinyAccount.getNumber(), LocalDateTime.now());
 
         originAccount.addTransaction(debit);
         originAccount.substractAmount(amount);
