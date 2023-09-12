@@ -5,6 +5,7 @@ import com.mindhub.homebanking.services.CardService;
 import com.mindhub.homebanking.services.ClientService;
 import com.mindhub.homebanking.services.implement.CardServiceImplement;
 import com.mindhub.homebanking.services.implement.ClientServiceImplement;
+import com.mindhub.homebanking.utils.CardUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,19 +46,20 @@ public class CardController {
         long countCardsByType = client.getCards().stream().filter( card -> card.getType().equals(cardType)).count();
 
         if (countCardsByType < 3){
-            String number;
+            String cardNumber;
             Optional<Card> cardRetrieved;
 
             do{
-                number =   random.nextInt(10000) + "-" +
-                            random.nextInt(10000) + "-" +
-                            random.nextInt(10000) + "-" +
-                            random.nextInt(10000);
+//                number =   random.nextInt(10000) + "-" +
+//                            random.nextInt(10000) + "-" +
+//                            random.nextInt(10000) + "-" +
+//                            random.nextInt(10000);
+                cardNumber = CardUtils.getCardNumber();
 
-                cardRetrieved = Optional.ofNullable(cardService.findByNumber(number));
+                cardRetrieved = Optional.ofNullable(cardService.findByNumber(cardNumber));
             }while(cardRetrieved.isPresent());
 
-            Card card = new Card( number, random.nextInt(1000), LocalDateTime.now(), LocalDateTime.now().plusYears(5), cardType, cardColor );
+            Card card = new Card( cardNumber, CardUtils.getCVV(), LocalDateTime.now(), LocalDateTime.now().plusYears(5), cardType, cardColor );
             client.addCard(card);
             cardService.saveCard(card);
             return new ResponseEntity<>(HttpStatus.CREATED);
