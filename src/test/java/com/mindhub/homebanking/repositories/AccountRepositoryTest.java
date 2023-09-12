@@ -17,7 +17,7 @@ class AccountRepositoryTest {
     AccountRepository accountRepository;
 
     @Test
-    public void existLoans(){
+    public void existAccounts(){
 
         List<Account> accounts = accountRepository.findAll();
         assertThat(accounts,is(not(empty())));
@@ -25,10 +25,10 @@ class AccountRepositoryTest {
     }
 
     @Test
-    public void existsAccount(){
+    public void existsAccountByNumber(){
 
-        //List<Loan> loans = loanRepository.findAll();
-        assertThat(String.valueOf(true), true);
+        List<Account> accounts = accountRepository.findAll();
+        assertThat(accounts, hasItem(hasProperty("number", is("VIN001"))));
 
     }
 

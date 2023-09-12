@@ -1,5 +1,6 @@
 package com.mindhub.homebanking.repositories;
 
+import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.Transaction;
 import org.junit.jupiter.api.Test;
@@ -27,4 +28,13 @@ class ClientRepositoryTest {
     @Test
     void findByEmail() {
     }
+
+    @Test
+    public void existsAccountByNumber(){
+
+        List<Client> clients = clientRepository.findAll();
+        assertThat(clients, hasItem(hasProperty("email", is("melba@mindhub.com"))));
+
+    }
+
 }

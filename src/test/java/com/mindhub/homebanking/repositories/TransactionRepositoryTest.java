@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.repositories;
 
 import com.mindhub.homebanking.models.Transaction;
+import com.mindhub.homebanking.models.TransactionType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +20,7 @@ class TransactionRepositoryTest {
     TransactionRepository transactionRepository;
 
     @Test
-    public void existLoans(){
+    public void existTransactions(){
 
         List<Transaction> transactions = transactionRepository.findAll();
         assertThat(transactions,is(not(empty())));
@@ -27,10 +28,10 @@ class TransactionRepositoryTest {
     }
 
     @Test
-    public void existPersonalLoan(){
+    public void existCreditTransaction(){
 
-        //List<Loan> loans = loanRepository.findAll();
-        assertThat(String.valueOf(true), true);
+        List<Transaction> transactions = transactionRepository.findAll();
+        assertThat(transactions, hasItem(hasProperty("type", is(TransactionType.CREDIT))));
 
     }
 }

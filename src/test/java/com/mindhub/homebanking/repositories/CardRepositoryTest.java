@@ -27,12 +27,13 @@ class CardRepositoryTest {
     @Test
     public void existsCard(){
 
-        //List<Loan> loans = loanRepository.findAll();
-        assertThat(String.valueOf(true), true);
+        List<Card> cards = cardRepository.findAll();
+        assertThat(cards, hasItem(hasProperty("number", is("2234-6745-5582-0699"))));
 
     }
 
     @Test
     void findByNumber() {
+
     }
 }
