@@ -28,17 +28,17 @@ public class AccountController {
 
     private Random random = new Random();
 
-    @RequestMapping("/accounts")
+    @GetMapping("/accounts")
     public List<AccountDTO> getAccounts() {
         return accountService.getAccountsDTO();
     }
 
-    @RequestMapping("/accounts/{id}")
+    @GetMapping("/accounts/{id}")
     public AccountDTO getAccount(@PathVariable Long id) {
         return accountService.getAccountDTO(id);
     }
 
-    @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
+    @PostMapping(path = "/clients/current/accounts")
     public ResponseEntity<Object> createAccount(Authentication authentication) {
 
         Client client = clientService.findByEmail(authentication.getName());
@@ -63,7 +63,7 @@ public class AccountController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    @RequestMapping(path = "/clients/current/accounts")
+    @GetMapping(path = "/clients/current/accounts")
     public List<AccountDTO> getAccounts(Authentication authentication) {
         Client client = clientService.findByEmail(authentication.getName());
 
