@@ -31,6 +31,9 @@ public class HomebankingApplication {
 									  ClientLoanRepository clientLoanRepository,
 									  CardRepository cardRepository){
 		return (args) -> {
+
+			/*
+
 			//Creating a couple of transactions
 			Transaction transaction1 = new Transaction(TransactionType.CREDIT, 750, "Credit from Paul", LocalDateTime.now());
 			Transaction transaction2 = new Transaction(TransactionType.DEBIT, -500, "Rent payment", LocalDateTime.now());
@@ -49,21 +52,15 @@ public class HomebankingApplication {
 			Client client2 = new Client("Martín", "Palermo", "martin@pescador.com", passwordEncoder.encode("martin123"));
 			Client client3 = new Client("Alberto", "Einstenio", "albert_einstein_1879@lifebeforeinternet.com", passwordEncoder.encode("alberto123"));
 
-			//Creating admin
+			//Creating admin - Only test purposes
 			Client client4 = new Client("admin", "admin", "admin@mindhub.com", passwordEncoder.encode("admin"));
-			//Only for test purposes
 
 			//Creating three types for Loan
 			Loan loan1 = new Loan("Hipotecario", 500000, List.of(12, 24, 36, 48, 60));
 			Loan loan2 = new Loan("Personal", 100000, List.of(6, 12, 24));
 			Loan loan3 = new Loan("Automotriz", 300000, List.of(6, 12, 24, 36));
 
-			//Creating 2 loans for Melba and 2 for MP9
-//			ClientLoan clientLoan1 = new ClientLoan(400000, 60, client1, loan1);
-//			ClientLoan clientLoan2 = new ClientLoan(50000, 12, client1, loan2);
-//			ClientLoan clientLoan3 = new ClientLoan(100000, 24, client2, loan2);
-//			ClientLoan clientLoan4 = new ClientLoan(200000, 36, client2, loan3);
-
+			//Creating two loans for Melba and Martin
  			ClientLoan clientLoan1 = new ClientLoan(400000, 60);
 			ClientLoan clientLoan2 = new ClientLoan(50000, 12);
 			ClientLoan clientLoan3 = new ClientLoan(100000, 24);
@@ -134,7 +131,7 @@ public class HomebankingApplication {
 			cardRepository.save(card3);
 			cardRepository.save(card4);
 
-
+			*/
 
 		};
 	}
