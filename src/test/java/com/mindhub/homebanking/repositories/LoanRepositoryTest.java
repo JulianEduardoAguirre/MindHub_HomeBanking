@@ -1,22 +1,19 @@
-package com.mindhub.homebanking;
+package com.mindhub.homebanking.repositories;
 
 import com.mindhub.homebanking.models.Loan;
-import com.mindhub.homebanking.repositories.LoanRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+
 @SpringBootTest
-//@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class RepositoriesTest {
+class LoanRepositoryTest {
+
 
     @Autowired
     LoanRepository loanRepository;
@@ -38,4 +35,3 @@ public class RepositoriesTest {
     }
 
 }
-
