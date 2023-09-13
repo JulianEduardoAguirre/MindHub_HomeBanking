@@ -3,8 +3,10 @@ package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
+import com.mindhub.homebanking.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,9 @@ public class AccountController {
     @Autowired
     private ClientService clientService;
 
+    @Autowired
+    private TransactionService transactionService;
+
     private Random random = new Random();
 
     @GetMapping("/accounts")
@@ -36,6 +41,31 @@ public class AccountController {
     @GetMapping("/accounts/{id}")
     public AccountDTO getAccount(@PathVariable Long id) {
         return accountService.getAccountDTO(id);
+    }
+
+    @PostMapping("/accounts/{number}")
+    public ResponseEntity<Object> changeAccountState(@PathVariable String number,
+                                                     Authentication authentication) {
+        Client client = clientService.findByEmail(authentication.getName());
+        Account accountToChange = accountService.findByNumber(number);
+
+        if(client.getAccounts().stream().noneMatch( account -> account.getNumber().equals(accountToChange.getNumber()))){
+            return new ResponseEntity<>("Error", HttpStatus.FORBIDDEN);
+        }
+
+        List<Transaction> accountTransactions = transactionService.getTransactions();
+        for (Transaction transaction: accountTransactions) {
+            transaction.changeState();
+        }
+
+        accountToChange.changeState();
+
+        transactionService.saveAllTransactions(accountTransactions);
+        accountService.saveAccount(accountToChange);
+
+        return new ResponseEntity<>("Success", HttpStatus.CREATED);
+
+
     }
 
     @PostMapping(path = "/clients/current/accounts")
@@ -67,7 +97,7 @@ public class AccountController {
     public List<AccountDTO> getAccounts(Authentication authentication) {
         Client client = clientService.findByEmail(authentication.getName());
 
-        return client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toList()); //CONSULTAR MAÑANA
+        return client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toList());
     }
 
 

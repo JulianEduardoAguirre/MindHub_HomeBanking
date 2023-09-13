@@ -25,4 +25,14 @@ public class TransactionServiceImplement implements TransactionService {
     public List<TransactionDTO> getTransactionsDTO() {
         return transactionRepository.findAll().stream().map(TransactionDTO::new).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Transaction> getTransactions() {
+        return transactionRepository.findAll();
+    }
+
+    @Override
+    public void saveAllTransactions(List<Transaction> transactions) {
+        transactionRepository.saveAll(transactions);
+    }
 }

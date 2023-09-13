@@ -16,9 +16,9 @@ public class CardDTO {
     private CardType type;
     private CardColor color;
 
-    private boolean state;
+    private boolean state;  //Enabled or disabled by client
 
-    private boolean isValid;
+    private boolean notExpired;    //If it is expired
 
     private String cardHolder;
 
@@ -31,7 +31,7 @@ public class CardDTO {
         this.type = card.getType();
         this.color = card.getColor();
         this.state = card.getState();
-        this.state = LocalDateTime.now().isBefore(this.thruDate);
+        this.notExpired = LocalDateTime.now().isBefore(this.thruDate);
         this.cardHolder = card.getCardholder().getFirstName() + " " + card.getCardholder().getLastName();
     }
 
@@ -64,7 +64,7 @@ public class CardDTO {
     }
 
     public boolean getState() { return state; }
-    public boolean isValid() {return isValid; }
+    public boolean notExpired() {return notExpired; }
     public String getCardHolder() {
         return cardHolder;
     }

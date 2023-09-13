@@ -12,12 +12,17 @@ public class TransactionDTO {
     private String description;
     private LocalDateTime date;
 
+    private double balance;
+    private boolean state;
+
     public TransactionDTO(Transaction transaction) {
         this.id = transaction.getId();
         this.type = transaction.getType();
         this.amount = transaction.getAmount();
         this.description = transaction.getDescription();
         this.date = transaction.getDate();
+        this.balance = transaction.getBalance();
+        this.state = transaction.isEnabled();
     }
 
     public long getId() {
@@ -39,4 +44,8 @@ public class TransactionDTO {
     public LocalDateTime getDate() {
         return date;
     }
+
+    public double getBalance() { return balance; }
+
+    public boolean getState() { return state; }
 }

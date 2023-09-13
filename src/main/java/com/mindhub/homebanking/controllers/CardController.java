@@ -77,9 +77,12 @@ public class CardController {
         Card cardToChange = cardService.findByNumber(number);
 
         //Make sure that the card selected belongs to the auth client (later)
+        if (client.getCards().stream().noneMatch(card -> card.getNumber().equals(cardToChange.getNumber()))){
+            return new ResponseEntity<>("Error", HttpStatus.FORBIDDEN);
+        }
+
         cardToChange.changeState();
         cardService.saveCard(cardToChange);
-
         return new ResponseEntity<>(HttpStatus.CREATED);
 
     }

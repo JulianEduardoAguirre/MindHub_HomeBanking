@@ -10,4 +10,8 @@ public interface TransactionService {
     void saveTransaction(Transaction transaction);
 
     List<TransactionDTO> getTransactionsDTO();
+
+    List<Transaction> getTransactions();
+
+    void saveAllTransactions(List<Transaction> transactions);
 }

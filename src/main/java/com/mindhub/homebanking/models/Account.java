@@ -21,7 +21,7 @@ public class Account {
 
     private double balance;
 
-    private boolean state;
+    private boolean state;  //Enabled or disabled
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private Client owner;
@@ -85,6 +85,7 @@ public class Account {
 
     public void addTransaction(Transaction transaction){
         transaction.setOwner(this);
+        transaction.setBalance(this.balance);
         transactions.add(transaction);
     }
 

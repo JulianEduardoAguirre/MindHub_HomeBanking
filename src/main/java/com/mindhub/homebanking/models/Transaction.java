@@ -20,6 +20,8 @@ public class Transaction {
     private LocalDateTime date;
     private double balance;
 
+    private boolean state;  //Enabled(true) or disable(false)
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private Account owner;
@@ -32,6 +34,7 @@ public class Transaction {
         this.amount = amount;
         this.description = description;
         this.date = date;
+        this.state = true;
     }
 
     public long getId() {
@@ -68,6 +71,22 @@ public class Transaction {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public boolean isEnabled() {
+        return state;
+    }
+
+    public void changeState() {
+        this.state = !this.state;
+    }
+
+    public double getBalance() {
+        return this.balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     @JsonIgnore

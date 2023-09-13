@@ -81,11 +81,11 @@ public class TransactionController {
         Transaction debit = new Transaction(TransactionType.DEBIT, -amount, description + " " + originAccount.getNumber(), LocalDateTime.now());
         Transaction credit = new Transaction(TransactionType.CREDIT, amount, description + " " + destinyAccount.getNumber(), LocalDateTime.now());
 
-        originAccount.addTransaction(debit);
         originAccount.substractAmount(amount);
+        originAccount.addTransaction(debit);
 
-        destinyAccount.addTransaction(credit);
         destinyAccount.addAmount(amount);
+        destinyAccount.addTransaction(credit);
 
         transactionService.saveTransaction(debit);
         transactionService.saveTransaction(credit);
