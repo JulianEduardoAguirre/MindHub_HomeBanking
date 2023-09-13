@@ -18,6 +18,8 @@ public class CardDTO {
 
     private boolean state;
 
+    private boolean isValid;
+
     private String cardHolder;
 
     public CardDTO(Card card) {
@@ -29,6 +31,7 @@ public class CardDTO {
         this.type = card.getType();
         this.color = card.getColor();
         this.state = card.getState();
+        this.state = LocalDateTime.now().isBefore(this.thruDate);
         this.cardHolder = card.getCardholder().getFirstName() + " " + card.getCardholder().getLastName();
     }
 
@@ -61,7 +64,7 @@ public class CardDTO {
     }
 
     public boolean getState() { return state; }
-
+    public boolean isValid() {return isValid; }
     public String getCardHolder() {
         return cardHolder;
     }

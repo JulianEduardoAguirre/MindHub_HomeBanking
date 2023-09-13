@@ -69,4 +69,6 @@ public class AccountController {
 
         return client.getAccounts().stream().map(AccountDTO::new).collect(Collectors.toList()); //CONSULTAR MAÑANA
     }
+
+
 }

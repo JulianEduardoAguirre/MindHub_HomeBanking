@@ -24,8 +24,6 @@ public class Card {
 
     private boolean state;
 
-    private boolean validDate;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cardholder_id")
     private Client cardholder;
@@ -43,7 +41,6 @@ public class Card {
         this.type = type;
         this.color = color;
         this.state = true;
-        this.validDate = true;
     }
 
     public long getId() {
@@ -98,10 +95,6 @@ public class Card {
         this.color = color;
     }
 
-    public boolean getState() {
-        return state;
-    }
-
     public void setState(boolean state) {
         this.state = state;
     }
@@ -115,8 +108,7 @@ public class Card {
     }
 
     public void changeState() {
-        if (!state) this.state = true;
-        else this.state = false;
+        this.state = !this.state;
     }
 
 }
