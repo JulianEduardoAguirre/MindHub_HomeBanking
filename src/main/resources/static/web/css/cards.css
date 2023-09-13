@@ -42,6 +42,21 @@
 	background: linear-gradient(45deg, #6ea3e0, #185781);
 }
 
+.expired-plastic-card {
+	background: rgba(25, 25, 25, 0.2);
+}
+
+.expired-msg {
+    color: red;
+    font-size: larger;
+    font-weight: bolder;
+    padding: 0;
+    margin: auto 0;
+    position: absolute;
+    margin-top: -20px;
+    margin-left: 100px;
+}
+
 
 .plastic-card__front {
 	padding: 18px;

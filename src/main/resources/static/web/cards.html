@@ -90,13 +90,14 @@
                     </div>
                     <div class="row">
                         <div v-for="card in debitCards" class="plastic-card col-12 col-md-3 mt-2">
-                            <div
-                                v-bind:class="['plastic-card__front', 'plastic-card__part', card.color.toLowerCase() +'-plastic-card']">
+                            <div v-bind:class="['plastic-card__front', 'plastic-card__part', card.color.toLowerCase() +'-plastic-card']">
+<!--                            <div v-bind:class="['plastic-card__front', 'plastic-card__part', 'expired-plastic-card']">-->
                                 <div class="plastic-card__square">
                                     <span class="plastic-card__label">{{ card.type}} {{ card.color }}</span>
                                 </div>
                                 <img class="plastic-card__front-logo plastic-card__logo" src="img/Mindhub-logo.png">
                                 <p class="plastic-card_numer">{{ card.number}}</p>
+                                <p v-if="card.state == false" class="expired-msg">EXPIRED</p>   <!--Change it to true for testing purposes-->
                                 <div class="plastic-card__space-60">
                                     <span class="plastic-card__label">card holder</span>
                                     <p class="plastic-card__info">{{ card.cardHolder }}</p>
@@ -137,6 +138,7 @@
                                 </div>
                                 <img class="plastic-card__front-logo plastic-card__logo" src="img/Mindhub-logo.png">
                                 <p class="plastic-card_numer">{{ card.number}}</p>
+                                <p v-if="card.state == false" class="expired-msg">EXPIRED</p>
                                 <div class="plastic-card__space-60">
                                     <span class="plastic-card__label">card holder</span>
                                     <p class="plastic-card__info">{{ card.cardHolder }}</p>
