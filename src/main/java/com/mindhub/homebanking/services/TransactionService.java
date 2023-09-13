@@ -4,6 +4,7 @@ import com.mindhub.homebanking.dtos.TransactionDTO;
 import com.mindhub.homebanking.models.Transaction;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TransactionService {
 
@@ -14,4 +15,5 @@ public interface TransactionService {
     List<Transaction> getTransactions();
 
     void saveAllTransactions(List<Transaction> transactions);
+    void saveAllTransactionsSet(Set<Transaction> transactions);
 }

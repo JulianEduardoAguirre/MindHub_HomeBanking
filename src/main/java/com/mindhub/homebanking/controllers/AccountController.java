@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,24 +44,25 @@ public class AccountController {
         return accountService.getAccountDTO(id);
     }
 
-    @PostMapping("/accounts/{number}")
-    public ResponseEntity<Object> changeAccountState(@PathVariable String number,
+    @PostMapping("/clients/current/accounts/delete")
+    public ResponseEntity<Object> changeAccountState (@RequestParam String number,
                                                      Authentication authentication) {
-        Client client = clientService.findByEmail(authentication.getName());
+
+//        Client client = clientService.findByEmail(authentication.getName());
         Account accountToChange = accountService.findByNumber(number);
 
-        if(client.getAccounts().stream().noneMatch( account -> account.getNumber().equals(accountToChange.getNumber()))){
-            return new ResponseEntity<>("Error", HttpStatus.FORBIDDEN);
-        }
+//        if(client.getAccounts().stream().noneMatch( account -> account.getNumber().equals(accountToChange.getNumber()))){
+//            return new ResponseEntity<>("Error", HttpStatus.FORBIDDEN);
+//        }
 
-        List<Transaction> accountTransactions = transactionService.getTransactions();
+        Set<Transaction> accountTransactions = accountToChange.getTransactions();
         for (Transaction transaction: accountTransactions) {
             transaction.changeState();
         }
 
         accountToChange.changeState();
 
-        transactionService.saveAllTransactions(accountTransactions);
+        transactionService.saveAllTransactionsSet(accountTransactions);
         accountService.saveAccount(accountToChange);
 
         return new ResponseEntity<>("Success", HttpStatus.CREATED);
