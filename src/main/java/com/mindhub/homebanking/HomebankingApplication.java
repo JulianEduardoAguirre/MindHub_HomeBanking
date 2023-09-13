@@ -32,7 +32,7 @@ public class HomebankingApplication {
 									  CardRepository cardRepository){
 		return (args) -> {
 
-			/*
+
 
 			//Creating a couple of transactions
 			Transaction transaction1 = new Transaction(TransactionType.CREDIT, 750, "Credit from Paul", LocalDateTime.now());
@@ -131,7 +131,7 @@ public class HomebankingApplication {
 			cardRepository.save(card3);
 			cardRepository.save(card4);
 
-			*/
+
 
 		};
 	}

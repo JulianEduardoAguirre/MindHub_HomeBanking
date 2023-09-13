@@ -20,6 +20,8 @@ public class Account {
     private LocalDate creationDate;
 
     private double balance;
+
+    private boolean state;  //Enabled or disabled
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private Client owner;
@@ -34,6 +36,7 @@ public class Account {
         this.number = number;
         this.creationDate = creationDate;
         this.balance = balance;
+        this.state = true;
     }
 
     public long getId() {
@@ -63,6 +66,10 @@ public class Account {
         this.balance = balance;
     }
 
+    public boolean isValid() {
+        return state;
+    }
+
     @JsonIgnore
     public Client getOwner() {
         return owner;
@@ -78,7 +85,12 @@ public class Account {
 
     public void addTransaction(Transaction transaction){
         transaction.setOwner(this);
+        transaction.setBalance(this.balance);
         transactions.add(transaction);
+    }
+
+    public void changeState() {
+        this.state = !this.state;
     }
 
     public void addAmount(double amount){

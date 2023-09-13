@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,4 +26,20 @@ public class TransactionServiceImplement implements TransactionService {
     public List<TransactionDTO> getTransactionsDTO() {
         return transactionRepository.findAll().stream().map(TransactionDTO::new).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Transaction> getTransactions() {
+        return transactionRepository.findAll();
+    }
+
+    @Override
+    public void saveAllTransactions(List<Transaction> transactions) {
+        transactionRepository.saveAll(transactions);
+    }
+
+    @Override
+    public void saveAllTransactionsSet(Set<Transaction> transactions) {
+        transactionRepository.saveAll(transactions);
+    }
+
 }

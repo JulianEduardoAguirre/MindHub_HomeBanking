@@ -22,11 +22,16 @@ public class Card {
 
     private CardColor color;
 
+    private boolean state;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cardholder_id")
     private Client cardholder;
 
-    public Card() {};
+    public Card() {
+    }
+
+    ;
 
     public Card(String number, int cvv, LocalDateTime fromDate, LocalDateTime thruDate, CardType type, CardColor color) {
         this.number = number;
@@ -35,6 +40,7 @@ public class Card {
         this.thruDate = thruDate;
         this.type = type;
         this.color = color;
+        this.state = true;
     }
 
     public long getId() {
@@ -89,6 +95,14 @@ public class Card {
         this.color = color;
     }
 
+    public boolean getState() {
+        return this.state ;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
+    }
+
     public Client getCardholder() {
         return cardholder;
     }
@@ -97,11 +111,9 @@ public class Card {
         this.cardholder = cardholder;
     }
 
-//    public void serCardHolder(Client cardholder) {
-//        this.cardHolder = cardholder.getFirstName() + " " + cardholder.getLastName();
-//    }
+    public void changeState() {
+        this.state = !this.state;
+    }
 
-//    public void getCardHolder() {
-//        return this.cardHolder;
-//    }
 }
+
