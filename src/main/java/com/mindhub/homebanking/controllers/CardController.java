@@ -20,7 +20,7 @@ import java.util.Random;
 @RequestMapping("/api")
 public class CardController {
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     @Autowired
     private CardService cardService;
@@ -66,5 +66,21 @@ public class CardController {
         }
 
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
+    //Controller for enable / disable card
+    @PostMapping(path = "/clients/current/cards/{number}")
+    public ResponseEntity<Object> changeCardState(@RequestParam String number,
+                                                  Authentication authentication){
+
+        Client client = clientService.findByEmail(authentication.getName());
+        Card cardToChange = cardService.findByNumber(number);
+
+        //Make sure that the card selected belongs to the auth client (later)
+        cardToChange.changeState();
+        cardService.saveCard(cardToChange);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
     }
 }
