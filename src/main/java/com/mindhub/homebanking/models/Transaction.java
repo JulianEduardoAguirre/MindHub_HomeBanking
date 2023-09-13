@@ -18,6 +18,7 @@ public class Transaction {
     private double amount;
     private String description;
     private LocalDateTime date;
+    private double balance;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
