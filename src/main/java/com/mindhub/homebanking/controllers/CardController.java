@@ -50,13 +50,10 @@ public class CardController {
             Optional<Card> cardRetrieved;
 
             do{
-//                number =   random.nextInt(10000) + "-" +
-//                            random.nextInt(10000) + "-" +
-//                            random.nextInt(10000) + "-" +
-//                            random.nextInt(10000);
-                cardNumber = CardUtils.getCardNumber();
 
+                cardNumber = CardUtils.getCardNumber();
                 cardRetrieved = Optional.ofNullable(cardService.findByNumber(cardNumber));
+
             }while(cardRetrieved.isPresent());
 
             Card card = new Card( cardNumber, CardUtils.getCVV(), LocalDateTime.now(), LocalDateTime.now().plusYears(5), cardType, cardColor );
@@ -73,13 +70,13 @@ public class CardController {
     public ResponseEntity<Object> changeCardState(@RequestParam String number,
                                                   Authentication authentication){
 
-//        Client client = clientService.findByEmail(authentication.getName());
+        Client client = clientService.findByEmail(authentication.getName());
         Card cardToChange = cardService.findByNumber(number);
 
         //Make sure that the card selected belongs to the auth client (later)
-//        if (client.getCards().stream().noneMatch(card -> card.getNumber().equals(cardToChange.getNumber()))){
-//            return new ResponseEntity<>("Error", HttpStatus.FORBIDDEN);
-//        }
+        if (client.getCards().stream().noneMatch(card -> card.getNumber().equals(cardToChange.getNumber()))){
+            return new ResponseEntity<>("Error", HttpStatus.FORBIDDEN);
+        }
 
         cardToChange.changeState();
         cardService.saveCard(cardToChange);
