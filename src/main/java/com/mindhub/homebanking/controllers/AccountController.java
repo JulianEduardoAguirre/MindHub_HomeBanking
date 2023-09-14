@@ -48,12 +48,12 @@ public class AccountController {
     public ResponseEntity<Object> changeAccountState (@RequestParam String number,
                                                      Authentication authentication) {
 
-//        Client client = clientService.findByEmail(authentication.getName());
+        Client client = clientService.findByEmail(authentication.getName());
         Account accountToChange = accountService.findByNumber(number);
 
-//        if(client.getAccounts().stream().noneMatch( account -> account.getNumber().equals(accountToChange.getNumber()))){
-//            return new ResponseEntity<>("Error", HttpStatus.FORBIDDEN);
-//        }
+        if(client.getAccounts().stream().noneMatch( account -> account.getNumber().equals(accountToChange.getNumber()))){
+            return new ResponseEntity<>("Error", HttpStatus.FORBIDDEN);
+        }
 
         Set<Transaction> accountTransactions = accountToChange.getTransactions();
         for (Transaction transaction: accountTransactions) {
